@@ -6,28 +6,42 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
 
     private static String dbName="dic.db";
     private static int dbVersion=1;
-    private Context mContext;
+    private static Context mContext;
     private static String dbPath="";
     private SQLiteDatabase db;
+    private static DBHelper instance=null;
+
+    public static DBHelper getInstance(Context context){
+        if(instance==null){
+            instance=new DBHelper(context);
+        }
+        return instance;
+    }
 
     public DBHelper(Context context) {
         super(context, dbName, null, dbVersion);
         this.mContext=context;
-        dbPath="/data/data/"+mContext.getPackageName()+"/databases/";
+        dbPath="/data/data/"+context.getPackageName()+"/databases/";
+        try {
+            createDb();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void copyDb() throws IOException {
+    private void copyDb() throws IOException {
         File dir=new File(dbPath);
         if(!dir.exists()){
             dir.mkdir();
@@ -52,7 +66,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void createDb() throws IOException{
+    private void createDb() throws IOException{
         try {
             copyDb();
         }catch (SQLException e){
@@ -61,7 +75,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void openDb(){
+    private void openDb(){
         try{
             db=SQLiteDatabase.openDatabase(dbPath+dbName,null,SQLiteDatabase.OPEN_READONLY);
         }catch (SQLException e){
@@ -81,6 +95,18 @@ public class DBHelper extends SQLiteOpenHelper {
             }while (cursor.moveToNext());
         }
         return mean;
+    }
+
+    public List<String> wordList(){
+        List<String> list=new ArrayList<>();
+        openDb();
+        Cursor cursor=db.rawQuery("SELECT "+DBC.ENGLISH_WORD+" FROM "+DBC.TABLE_NAME,null);
+        if(cursor.moveToFirst()){
+            do{
+                list.add(cursor.getString(cursor.getColumnIndex(DBC.ENGLISH_WORD)));
+            }while (cursor.moveToNext());
+        }
+        return list;
     }
 
     @Override
