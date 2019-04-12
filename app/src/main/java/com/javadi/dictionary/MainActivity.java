@@ -1,18 +1,22 @@
 package com.javadi.dictionary;
 
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
-
 import database.DBHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgPronounce,imgMenu;
     DrawerLayout drawerLayout;
     AutoCompleteTextView actvMainPage;
+    ConstraintLayout clExitMenu;
+    TextView tvPersianMenu;
     DBHelper dbHelper;
 
     @Override
@@ -35,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         imgMenu=(ImageView)findViewById(R.id.img_menu);
         imgPronounce=(ImageView)findViewById(R.id.img_pronounce);
         actvMainPage=(AutoCompleteTextView)findViewById(R.id.autoCompleteTextView_main_page);
+        clExitMenu=(ConstraintLayout)findViewById(R.id.menu_exit);
+        tvPersianMenu=(TextView)findViewById(R.id.tv_persian_main_page);
 
         words=App.dbHelper.wordList();
 
@@ -50,6 +58,21 @@ public class MainActivity extends AppCompatActivity {
 
         clickManager();
 
+        actvMainPage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                tvPersianMenu.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
+                hideKeyboard();
+            }
+        });
+        
+
+    }
+
+    //hide keyboard
+    private void hideKeyboard(){
+        InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 
     private void clickManager(){
@@ -62,6 +85,20 @@ public class MainActivity extends AppCompatActivity {
                 else{
                     drawerLayout.openDrawer(Gravity.RIGHT);
                 }
+            }
+        });
+
+        clExitMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        imgPronounce.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }

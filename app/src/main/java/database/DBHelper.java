@@ -87,7 +87,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public String translate(String word){
         openDb();
         Cursor cursor =db.rawQuery("SELECT * FROM "+DBC.TABLE_NAME+" WHERE " +DBC.ENGLISH_WORD
-                +"="+word,null);
+                +"="+"'"+word+"'",null);
         String mean=null;
         if(cursor.moveToFirst()){
             do{

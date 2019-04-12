@@ -2,4 +2,5 @@
 <resources>
     <dimen name="AutocompleteTextSize">30dp</dimen>
     <dimen name="PersianTextview">30dp</dimen>
+    <dimen name="MenuOptionTextSize">20dp</dimen>
 </resources>
