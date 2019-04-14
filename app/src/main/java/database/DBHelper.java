@@ -1,5 +1,6 @@
 package database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -23,7 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private SQLiteDatabase db;
     private static DBHelper instance=null;
 
-    public static DBHelper getInstance(Context context){
+    public static synchronized DBHelper getInstance(Context context){
         if(instance==null){
             instance=new DBHelper(context);
         }
@@ -69,6 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private void createDb() throws IOException{
         try {
             copyDb();
+
         }catch (SQLException e){
             e.printStackTrace();
             Log.e("Error createDb",e.getMessage());
@@ -86,7 +88,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public String translate(String word){
         openDb();
-        Cursor cursor =db.rawQuery("SELECT * FROM "+DBC.TABLE_NAME+" WHERE " +DBC.ENGLISH_WORD
+        Cursor cursor =db.rawQuery("SELECT * FROM "+DBC.mainDB.TABLE_NAME+" WHERE " +DBC.mainDB.ENGLISH_WORD
                 +"="+"'"+word+"'",null);
         String mean=null;
         if(cursor.moveToFirst()){
@@ -100,10 +102,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<String> wordList(){
         List<String> list=new ArrayList<>();
         openDb();
-        Cursor cursor=db.rawQuery("SELECT "+DBC.ENGLISH_WORD+" FROM "+DBC.TABLE_NAME,null);
+        Cursor cursor=db.rawQuery("SELECT "+DBC.mainDB.ENGLISH_WORD+" FROM "+DBC.mainDB.TABLE_NAME,null);
         if(cursor.moveToFirst()){
             do{
-                list.add(cursor.getString(cursor.getColumnIndex(DBC.ENGLISH_WORD)));
+                list.add(cursor.getString(cursor.getColumnIndex(DBC.mainDB.ENGLISH_WORD)));
             }while (cursor.moveToNext());
         }
         return list;
@@ -119,11 +121,24 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        try {
+            db.beginTransaction();
+            db.execSQL("CREATE TABLE IF NOT EXISTS "+ DBC.searchedWords.TABLE_NAME
+                    +" ("+ DBC.searchedWords.id+" INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + DBC.searchedWords.ENGLISH_WORD+" TEXT,"
+                    + DBC.searchedWords.PERSIAN_WORD+" TEXT,"
+                    +DBC.searchedWords.checkFavorite+" INTEGER)");
+            db.setTransactionSuccessful();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            db.endTransaction();
+        }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
 }

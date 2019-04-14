@@ -1,5 +1,6 @@
 package com.javadi.dictionary;
 
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgPronounce,imgMenu;
     DrawerLayout drawerLayout;
     AutoCompleteTextView actvMainPage;
-    ConstraintLayout clExitMenu;
+    ConstraintLayout clExitMenu,clHistoryMenu;
     TextView tvPersianMenu;
     DBHelper dbHelper;
 
@@ -38,11 +40,12 @@ public class MainActivity extends AppCompatActivity {
         //init views
         toolbar=(Toolbar)findViewById(R.id.toobar);
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
-        imgMenu=(ImageView)findViewById(R.id.img_menu);
-        imgPronounce=(ImageView)findViewById(R.id.img_pronounce);
+        imgMenu=(ImageView)findViewById(R.id.img_menu_history_page);
+        imgPronounce=(ImageView)findViewById(R.id.img_pronounce_history_page);
         actvMainPage=(AutoCompleteTextView)findViewById(R.id.autoCompleteTextView_main_page);
         clExitMenu=(ConstraintLayout)findViewById(R.id.menu_exit);
         tvPersianMenu=(TextView)findViewById(R.id.tv_persian_main_page);
+        clHistoryMenu=(ConstraintLayout)findViewById(R.id.menu_history);
 
         words=App.dbHelper.wordList();
 
@@ -58,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
 
         clickManager();
 
+        //menu drawer manager
+        if(drawerLayout.isDrawerOpen(Gravity.RIGHT)){
+            drawerLayout.closeDrawer(Gravity.RIGHT);
+        }
+
         actvMainPage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -65,7 +73,19 @@ public class MainActivity extends AppCompatActivity {
                 hideKeyboard();
             }
         });
-        
+        actvMainPage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    tvPersianMenu.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
+                    hideKeyboard();
+                    handled = true;
+                }
+                return handled;
+            }
+        });
+
 
     }
 
@@ -92,6 +112,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        clHistoryMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent historyIntent=new Intent(MainActivity.this,History.class);
+                startActivity(historyIntent);
+                if(drawerLayout.isDrawerOpen(Gravity.RIGHT)){
+                    drawerLayout.closeDrawer(Gravity.RIGHT);
+                }
             }
         });
 
