@@ -6,6 +6,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -73,16 +74,15 @@ public class MainActivity extends AppCompatActivity {
                 hideKeyboard();
             }
         });
-        actvMainPage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        actvMainPage.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_SEND) {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
                     tvPersianMenu.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
                     hideKeyboard();
-                    handled = true;
+                    actvMainPage.dismissDropDown();
                 }
-                return handled;
+                return false;
             }
         });
 

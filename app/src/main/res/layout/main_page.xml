@@ -61,7 +61,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:hint="@string/AutocompleteHint"
-        android:imeOptions="actionSend"
+        android:imeOptions="actionSearch"
         android:singleLine="true"
         android:textColor="@color/TextColor"
         android:textColorHint="@color/TextColor"
