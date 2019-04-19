@@ -7,12 +7,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import database.DBHelper;
-
 public class MainActivity extends AppCompatActivity {
 
     List<String> words=new ArrayList<>();
@@ -33,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     AutoCompleteTextView actvMainPage;
     ConstraintLayout clExitMenu,clHistoryMenu;
-    TextView tvPersianMenu;
+    TextView tvPersianMainPage;
     TextToSpeech t1;
 
     @Override
@@ -48,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         imgPronounce=(ImageView)findViewById(R.id.img_pronounce_history_page);
         actvMainPage=(AutoCompleteTextView)findViewById(R.id.autoCompleteTextView_main_page);
         clExitMenu=(ConstraintLayout)findViewById(R.id.menu_exit);
-        tvPersianMenu=(TextView)findViewById(R.id.tv_persian_main_page);
+        tvPersianMainPage =(TextView)findViewById(R.id.tv_persian_main_page);
         clHistoryMenu=(ConstraintLayout)findViewById(R.id.menu_history);
         t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -81,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         actvMainPage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                tvPersianMenu.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
+                tvPersianMainPage.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
                 hideKeyboard();
             }
         });
@@ -89,11 +87,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    tvPersianMenu.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
+                    tvPersianMainPage.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
                     hideKeyboard();
                     actvMainPage.dismissDropDown();
                 }
                 return false;
+            }
+        });
+
+        actvMainPage.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvPersianMainPage.setText("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
