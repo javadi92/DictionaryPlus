@@ -29,6 +29,7 @@
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="8dp"
                 android:src="@drawable/volume"
+                android:background="?selectableItemBackgroundBorderless"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/img_menu_history_page"
                 app:layout_constraintHorizontal_bias="1.0"
