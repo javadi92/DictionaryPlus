@@ -1,6 +1,7 @@
 package com.javadi.dictionary;
 
 import android.content.Intent;
+import android.speech.tts.TextToSpeech;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 import database.DBHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     AutoCompleteTextView actvMainPage;
     ConstraintLayout clExitMenu,clHistoryMenu;
     TextView tvPersianMenu;
-    DBHelper dbHelper;
+    TextToSpeech t1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,14 @@ public class MainActivity extends AppCompatActivity {
         clExitMenu=(ConstraintLayout)findViewById(R.id.menu_exit);
         tvPersianMenu=(TextView)findViewById(R.id.tv_persian_main_page);
         clHistoryMenu=(ConstraintLayout)findViewById(R.id.menu_history);
+        t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    t1.setLanguage(Locale.UK);
+                }
+            }
+        });
 
         words=App.dbHelper.wordList();
 
@@ -129,8 +140,16 @@ public class MainActivity extends AppCompatActivity {
         imgPronounce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(actvMainPage.getText().toString().trim()!=""){
+                    t1.speak(actvMainPage.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        actvMainPage.dismissDropDown();
     }
 }
