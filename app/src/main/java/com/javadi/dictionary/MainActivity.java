@@ -19,6 +19,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -81,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 tvPersianMainPage.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
                 hideKeyboard();
+                if(App.dbHelper.insertHistoryWord(actvMainPage.getText().toString())!=-1){
+                    Toast.makeText(MainActivity.this,"درسته",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         actvMainPage.setOnKeyListener(new View.OnKeyListener() {
@@ -89,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
                     tvPersianMainPage.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
                     hideKeyboard();
+                    App.dbHelper.insertHistoryWord(actvMainPage.getText().toString());
                     actvMainPage.dismissDropDown();
                 }
                 return false;

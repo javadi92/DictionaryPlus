@@ -2,7 +2,7 @@ package com.javadi.dictionary;
 
 import android.app.Application;
 
-import database.DBHelper;
+import com.javadi.dictionary.database.DBHelper;
 
 public class App extends Application {
 
