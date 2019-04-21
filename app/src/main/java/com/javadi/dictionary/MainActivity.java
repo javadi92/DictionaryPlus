@@ -28,6 +28,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     List<String> words=new ArrayList<>();
+    List<String> historyWords=new ArrayList<>();
     Toolbar toolbar;
     ImageView imgPronounce,imgMenu;
     DrawerLayout drawerLayout;
@@ -83,9 +84,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 tvPersianMainPage.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
                 hideKeyboard();
-                if(App.dbHelper.insertHistoryWord(actvMainPage.getText().toString())!=-1){
-                    Toast.makeText(MainActivity.this,"درسته",Toast.LENGTH_SHORT).show();
-                }
+                checkHistoryContainer();
             }
         });
         actvMainPage.setOnKeyListener(new View.OnKeyListener() {
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
                     tvPersianMainPage.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
                     hideKeyboard();
-                    App.dbHelper.insertHistoryWord(actvMainPage.getText().toString());
+                    checkHistoryContainer();
                     actvMainPage.dismissDropDown();
                 }
                 return false;
@@ -172,5 +171,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         actvMainPage.dismissDropDown();
+    }
+
+    private void checkHistoryContainer(){
+        historyWords=App.dbHelper.getHistoryList();
+        if(!historyWords.contains(actvMainPage.getText().toString())){
+            App.dbHelper.insertHistoryWord(actvMainPage.getText().toString());
+        }
     }
 }

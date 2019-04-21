@@ -144,7 +144,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<String> getHistoryList(){
         List<String> list=new ArrayList<>();
         SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
-        Cursor cursor=sqLiteDatabase.rawQuery("SELECT "+DBC.searchedWords.ENGLISH_WORD+" FROM "+DBC.searchedWords.TABLE_NAME,null);
+        Cursor cursor=sqLiteDatabase .rawQuery("SELECT "+DBC.searchedWords.ENGLISH_WORD+" FROM "+DBC.searchedWords.TABLE_NAME,null);
         if(cursor.moveToFirst()){
             do{
                 list.add(cursor.getString(cursor.getColumnIndex(DBC.searchedWords.ENGLISH_WORD)));
