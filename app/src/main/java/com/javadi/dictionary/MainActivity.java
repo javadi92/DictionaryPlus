@@ -1,6 +1,7 @@
 package com.javadi.dictionary;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.speech.tts.TextToSpeech;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.DrawerLayout;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     List<String> words=new ArrayList<>();
     List<String> historyWords=new ArrayList<>();
     Toolbar toolbar;
-    ImageView imgPronounce,imgMenu;
+    ImageView imgPronounce,imgMenu,imgFavorite;
     DrawerLayout drawerLayout;
     AutoCompleteTextView actvMainPage;
     ConstraintLayout clExitMenu,clHistoryMenu;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         imgMenu=(ImageView)findViewById(R.id.img_menu_history_page);
         imgPronounce=(ImageView)findViewById(R.id.img_pronounce_history_page);
         actvMainPage=(AutoCompleteTextView)findViewById(R.id.autoCompleteTextView_main_page);
+        imgFavorite=(ImageView)findViewById(R.id.img_favorite);
         clExitMenu=(ConstraintLayout)findViewById(R.id.menu_exit);
         tvPersianMainPage =(TextView)findViewById(R.id.tv_persian_main_page);
         clHistoryMenu=(ConstraintLayout)findViewById(R.id.menu_history);
@@ -162,6 +164,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(actvMainPage.getText().toString().trim()!=""){
                     t1.speak(actvMainPage.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                }
+            }
+        });
+
+        imgFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(imgFavorite.getTag().equals("false")){
+                    imgFavorite.setImageResource(R.drawable.favorite_fill);
+                    imgFavorite.setTag("true");
+                }
+                else {
+                    imgFavorite.setImageResource(R.drawable.favorite_border);
+                    imgFavorite.setTag("false");
                 }
             }
         });
