@@ -1,7 +1,6 @@
 package com.javadi.dictionary;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.speech.tts.TextToSpeech;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.DrawerLayout;
@@ -20,8 +19,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -34,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgPronounce,imgMenu,imgFavorite;
     DrawerLayout drawerLayout;
     AutoCompleteTextView actvMainPage;
-    ConstraintLayout clExitMenu,clHistoryMenu;
+    ConstraintLayout clExitMenu,clHistoryMenu,clFavorite;
     TextView tvPersianMainPage;
     TextToSpeech t1;
 
@@ -51,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         actvMainPage=(AutoCompleteTextView)findViewById(R.id.autoCompleteTextView_main_page);
         imgFavorite=(ImageView)findViewById(R.id.img_favorite);
         clExitMenu=(ConstraintLayout)findViewById(R.id.menu_exit);
+        clFavorite=(ConstraintLayout)findViewById(R.id.menu_favorite);
         tvPersianMainPage =(TextView)findViewById(R.id.tv_persian_main_page);
         clHistoryMenu=(ConstraintLayout)findViewById(R.id.menu_history);
         t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
@@ -118,8 +116,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     //hide keyboard
@@ -153,6 +149,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent historyIntent=new Intent(MainActivity.this,History.class);
                 startActivity(historyIntent);
+                if(drawerLayout.isDrawerOpen(Gravity.RIGHT)){
+                    drawerLayout.closeDrawer(Gravity.RIGHT);
+                }
+            }
+        });
+
+        clFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent favoriteIntent=new Intent(MainActivity.this,Favorite.class);
+                startActivity(favoriteIntent);
                 if(drawerLayout.isDrawerOpen(Gravity.RIGHT)){
                     drawerLayout.closeDrawer(Gravity.RIGHT);
                 }

@@ -1,5 +1,6 @@
 package com.javadi.dictionary;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -10,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
-
 import com.javadi.dictionary.adapter.HistoryAdapter;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class History extends AppCompatActivity {
     List<String> words=new ArrayList<>();
     ImageView imgMenuHistoryPage;
     DrawerLayout drawerLayoutHistory;
-    ConstraintLayout clMainPage;
+    ConstraintLayout clMainPage,clExit,clFavorite;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,6 +31,8 @@ public class History extends AppCompatActivity {
 
         imgMenuHistoryPage=(ImageView)findViewById(R.id.img_menu_history_page);
         clMainPage=(ConstraintLayout)findViewById(R.id.menu_main_page);
+        clFavorite=(ConstraintLayout)findViewById(R.id.menu_favorite);
+        clExit=(ConstraintLayout) findViewById(R.id.menu_exit);
         recyclerViewHistory=(RecyclerView)findViewById(R.id.recy_history);
         drawerLayoutHistory=(DrawerLayout)findViewById(R.id.drawer_history);
         LinearLayoutManager llm=new LinearLayoutManager(getBaseContext());
@@ -55,6 +57,23 @@ public class History extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        clFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent favoriteIntent=new Intent(History.this,Favorite.class);
+                startActivity(favoriteIntent);
+                if(drawerLayoutHistory.isDrawerOpen(Gravity.RIGHT)){
+                    drawerLayoutHistory.closeDrawer(Gravity.RIGHT);
+                }
+            }
+        });
+        //exit program
+        clExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishAffinity();
             }
         });
     }
