@@ -202,4 +202,10 @@ public class MainActivity extends AppCompatActivity {
             App.dbHelper.insertHistoryWord(actvMainPage.getText().toString());
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+    }
 }
