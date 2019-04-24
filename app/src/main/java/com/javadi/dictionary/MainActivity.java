@@ -19,6 +19,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     List<String> words=new ArrayList<>();
     List<String> historyWords=new ArrayList<>();
+    List<String> favoriteWords=new ArrayList<>();
     Toolbar toolbar;
     ImageView imgPronounce,imgMenu,imgFavorite;
     DrawerLayout drawerLayout;
@@ -85,6 +88,14 @@ public class MainActivity extends AppCompatActivity {
                 tvPersianMainPage.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
                 hideKeyboard();
                 checkHistoryContainer();
+                if(checkfavoriteContainer()==true){
+                    imgFavorite.setImageResource(R.drawable.favorite_fill);
+                    imgFavorite.setTag("true");
+                }
+                else {
+                    imgFavorite.setImageResource(R.drawable.favorite_border);
+                    imgFavorite.setTag("false");
+                }
             }
         });
         actvMainPage.setOnKeyListener(new View.OnKeyListener() {
@@ -94,6 +105,14 @@ public class MainActivity extends AppCompatActivity {
                     tvPersianMainPage.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
                     hideKeyboard();
                     checkHistoryContainer();
+                    if(checkfavoriteContainer()==true){
+                        imgFavorite.setImageResource(R.drawable.favorite_fill);
+                        imgFavorite.setTag("true");
+                    }
+                    else {
+                        imgFavorite.setImageResource(R.drawable.favorite_border);
+                        imgFavorite.setTag("false");
+                    }
                     actvMainPage.dismissDropDown();
                 }
                 return false;
@@ -109,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 tvPersianMainPage.setText("");
+                imgFavorite.setImageResource(R.drawable.favorite_border);
+                imgFavorite.setTag("false");
             }
 
             @Override
@@ -178,11 +199,18 @@ public class MainActivity extends AppCompatActivity {
         imgFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(imgFavorite.getTag().equals("false")){
-                    imgFavorite.setImageResource(R.drawable.favorite_fill);
-                    imgFavorite.setTag("true");
+                if(checkfavoriteContainer()==false){
+
+                    if(App.dbHelper.insertFavoriteWord(actvMainPage.getText().toString())!=-1){
+                        Toast.makeText(MainActivity.this,"لغت به مورد علاقه ها افزوده شد",Toast.LENGTH_LONG).show();
+                        imgFavorite.setImageResource(R.drawable.favorite_fill);
+                        imgFavorite.setTag("true");
+                    }
                 }
                 else {
+                    if(App.dbHelper.deleteFavoriteWord(actvMainPage.getText().toString())!=-1){
+                        Toast.makeText(MainActivity.this,"لغت از مجموعه مورد علاقه ها حذف شد",Toast.LENGTH_LONG).show();
+                    }
                     imgFavorite.setImageResource(R.drawable.favorite_border);
                     imgFavorite.setTag("false");
                 }
@@ -201,6 +229,14 @@ public class MainActivity extends AppCompatActivity {
         if(!historyWords.contains(actvMainPage.getText().toString())){
             App.dbHelper.insertHistoryWord(actvMainPage.getText().toString());
         }
+    }
+
+    private boolean checkfavoriteContainer(){
+        favoriteWords=App.dbHelper.getFavoriteList();
+        if(favoriteWords.contains(actvMainPage.getText().toString())){
+            return true;
+        }
+        return false;
     }
 
     @Override

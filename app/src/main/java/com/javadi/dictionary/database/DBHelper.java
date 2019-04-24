@@ -153,12 +153,41 @@ public class DBHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    public List<String> getFavoriteList(){
+        List<String> list=new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+        Cursor cursor=sqLiteDatabase .rawQuery("SELECT * FROM "+DBC.searchedWords.TABLE_NAME+" WHERE "
+                                                +DBC.searchedWords.checkFavorite+"='1'",null);
+        if(cursor.moveToFirst()){
+            do{
+                list.add(cursor.getString(cursor.getColumnIndex(DBC.searchedWords.ENGLISH_WORD)));
+            }while (cursor.moveToNext());
+        }
+        return list;
+    }
+
     public long insertHistoryWord(String word){
         SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
         contentValues.put(DBC.searchedWords.ENGLISH_WORD,word);
         contentValues.put(DBC.searchedWords.checkFavorite,0);
         return sqLiteDatabase.insert(DBC.searchedWords.TABLE_NAME,null,contentValues);
+    }
+
+    public int insertFavoriteWord(String word){
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(DBC.searchedWords.ENGLISH_WORD,word);
+        contentValues.put(DBC.searchedWords.checkFavorite,1);
+        return sqLiteDatabase.update(DBC.searchedWords.TABLE_NAME,contentValues,DBC.searchedWords.ENGLISH_WORD+"=?",new String[]{word});
+    }
+
+    public int deleteFavoriteWord(String word){
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(DBC.searchedWords.ENGLISH_WORD,word);
+        contentValues.put(DBC.searchedWords.checkFavorite,0);
+        return sqLiteDatabase.update(DBC.searchedWords.TABLE_NAME,contentValues,DBC.searchedWords.ENGLISH_WORD+"=?",new String[]{word});
     }
 
 }
