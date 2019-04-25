@@ -63,6 +63,7 @@ public class History extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent favoriteIntent=new Intent(History.this,Favorite.class);
+                finish();
                 startActivity(favoriteIntent);
                 if(drawerLayoutHistory.isDrawerOpen(Gravity.RIGHT)){
                     drawerLayoutHistory.closeDrawer(Gravity.RIGHT);

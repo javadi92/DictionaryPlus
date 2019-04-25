@@ -11,9 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
-
 import com.javadi.dictionary.adapter.FavoriteAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +69,7 @@ public class Favorite extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intentHistory=new Intent(Favorite.this,History.class);
+                finish();
                 startActivity(intentHistory);
                 if(drawerFavorite.isDrawerOpen(Gravity.RIGHT)){
                     drawerFavorite.closeDrawer(Gravity.RIGHT);

@@ -20,7 +20,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -243,5 +242,14 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finishAffinity();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        actvMainPage.setText("");
+        tvPersianMainPage.setText("فارسی");
+        imgFavorite.setImageResource(R.drawable.favorite_border);
+        imgFavorite.setTag("false");
     }
 }
