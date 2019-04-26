@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ public class History extends AppCompatActivity {
     ImageView imgMenuHistoryPage;
     DrawerLayout drawerLayoutHistory;
     ConstraintLayout clMainPage,clExit,clFavorite;
+    public static Toolbar toolbarHistory;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class History extends AppCompatActivity {
         setContentView(R.layout.activity_history);
 
         imgMenuHistoryPage=(ImageView)findViewById(R.id.img_menu_history_page);
+        toolbarHistory=(Toolbar)findViewById(R.id.toobar_history);
         clMainPage=(ConstraintLayout)findViewById(R.id.menu_main_page);
         clFavorite=(ConstraintLayout)findViewById(R.id.menu_favorite);
         clExit=(ConstraintLayout) findViewById(R.id.menu_exit);
@@ -41,6 +44,8 @@ public class History extends AppCompatActivity {
         words=App.dbHelper.getHistoryList();
         historyAdapter=new HistoryAdapter(History.this,words);
         recyclerViewHistory.setAdapter(historyAdapter);
+
+        setSupportActionBar(toolbarHistory);
 
         imgMenuHistoryPage.setOnClickListener(new View.OnClickListener() {
             @Override

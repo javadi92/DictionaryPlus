@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //init views
-        toolbar=(Toolbar)findViewById(R.id.toobar);
+        toolbar=(Toolbar)findViewById(R.id.toobar_history);
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
         imgMenu=(ImageView)findViewById(R.id.img_menu_history_page);
         imgPronounce=(ImageView)findViewById(R.id.img_pronounce_history_page);
@@ -198,20 +198,25 @@ public class MainActivity extends AppCompatActivity {
         imgFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkfavoriteContainer()==false){
+                if(!tvPersianMainPage.getText().toString().equals("") && !actvMainPage.getText().toString().equals("")){
+                    if(checkfavoriteContainer()==false){
 
-                    if(App.dbHelper.insertFavoriteWord(actvMainPage.getText().toString())!=-1){
-                        Toast.makeText(MainActivity.this,"لغت به مورد علاقه ها افزوده شد",Toast.LENGTH_LONG).show();
-                        imgFavorite.setImageResource(R.drawable.favorite_fill);
-                        imgFavorite.setTag("true");
+                        if(App.dbHelper.insertFavoriteWord(actvMainPage.getText().toString())!=-1){
+                            Toast.makeText(MainActivity.this,"لغت به مورد علاقه ها افزوده شد",Toast.LENGTH_SHORT).show();
+                            imgFavorite.setImageResource(R.drawable.favorite_fill);
+                            imgFavorite.setTag("true");
+                        }
+                    }
+                    else {
+                        if(App.dbHelper.deleteFavoriteWord(actvMainPage.getText().toString())!=-1){
+                            Toast.makeText(MainActivity.this,"لغت از مجموعه مورد علاقه ها حذف شد",Toast.LENGTH_SHORT).show();
+                        }
+                        imgFavorite.setImageResource(R.drawable.favorite_border);
+                        imgFavorite.setTag("false");
                     }
                 }
                 else {
-                    if(App.dbHelper.deleteFavoriteWord(actvMainPage.getText().toString())!=-1){
-                        Toast.makeText(MainActivity.this,"لغت از مجموعه مورد علاقه ها حذف شد",Toast.LENGTH_LONG).show();
-                    }
-                    imgFavorite.setImageResource(R.drawable.favorite_border);
-                    imgFavorite.setTag("false");
+                    Toast.makeText(MainActivity.this,"لغتی یافت نشد",Toast.LENGTH_SHORT).show();
                 }
             }
         });

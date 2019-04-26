@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ public class Favorite extends AppCompatActivity {
     ImageView imgMenuFavoritePage;
     DrawerLayout drawerFavorite;
     ConstraintLayout clMainPage,clExit,clHistory;
+    public static Toolbar toolbarFavorite;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,11 +36,14 @@ public class Favorite extends AppCompatActivity {
         clHistory=(ConstraintLayout)findViewById(R.id.menu_history);
         clExit=(ConstraintLayout)findViewById(R.id.menu_exit);
         drawerFavorite=(DrawerLayout)findViewById(R.id.drawer_favorite);
+        toolbarFavorite=(Toolbar)findViewById(R.id.toobar_favorite_page);
         imgMenuFavoritePage=(ImageView)findViewById(R.id.img_menu_favorite_page);
 
         LinearLayoutManager llm=new LinearLayoutManager(Favorite.this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyFavorite.setLayoutManager(llm);
+
+        setSupportActionBar(toolbarFavorite);
 
         words=App.dbHelper.getFavoriteList();
         favoriteAdapter=new FavoriteAdapter(this,words);
