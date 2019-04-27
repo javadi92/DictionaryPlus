@@ -125,6 +125,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.myView
         @Override
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
             multiSelected=true;
+            menu.add("حذف");
             return true;
         }
 
@@ -135,7 +136,14 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.myView
 
         @Override
         public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-            return false;
+            if(wordSelected.size()>0){
+                for(String w:wordSelected){
+                    App.dbHelper.insertFavoriteWord(w);
+                    words.remove(w);
+                }
+            }
+            actionMode.finish();
+            return true;
         }
 
         @Override

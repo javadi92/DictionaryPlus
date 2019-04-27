@@ -2,8 +2,6 @@ package com.javadi.dictionary.adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.v7.view.ActionMode;
@@ -15,12 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.javadi.dictionary.App;
 import com.javadi.dictionary.History;
 import com.javadi.dictionary.R;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -132,6 +127,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.myViewHo
         @Override
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
             multiSelect=true;
+            menu.add("حذف");
             return true;
         }
 
@@ -142,7 +138,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.myViewHo
 
         @Override
         public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-            return false;
+            if(selectedItems.size()>0){
+                for(String w:selectedItems){
+                    App.dbHelper.deleteHistoryWord(w);
+                    words.remove(w);
+                }
+            }
+            actionMode.finish();
+            return true;
         }
 
         @Override

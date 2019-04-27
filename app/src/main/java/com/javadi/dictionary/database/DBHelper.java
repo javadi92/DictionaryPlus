@@ -174,6 +174,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return sqLiteDatabase.insert(DBC.searchedWords.TABLE_NAME,null,contentValues);
     }
 
+    public int deleteHistoryWord(String word){
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+        return sqLiteDatabase.delete(DBC.searchedWords.TABLE_NAME,DBC.searchedWords.ENGLISH_WORD+"=?",new String[]{word});
+    }
+
     public int insertFavoriteWord(String word){
         SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
