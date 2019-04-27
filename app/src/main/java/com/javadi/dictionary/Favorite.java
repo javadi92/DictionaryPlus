@@ -23,7 +23,7 @@ public class Favorite extends AppCompatActivity {
     FavoriteAdapter favoriteAdapter;
     ImageView imgMenuFavoritePage;
     DrawerLayout drawerFavorite;
-    ConstraintLayout clMainPage,clExit,clHistory;
+    ConstraintLayout clMainPage,clExit,clHistory,clFavorite;
     public static Toolbar toolbarFavorite;
 
     @Override
@@ -34,6 +34,7 @@ public class Favorite extends AppCompatActivity {
         recyFavorite=(RecyclerView)findViewById(R.id.recy_favorite);
         clMainPage=(ConstraintLayout)findViewById(R.id.menu_main_page);
         clHistory=(ConstraintLayout)findViewById(R.id.menu_history);
+        clFavorite=(ConstraintLayout)findViewById(R.id.menu_favorite);
         clExit=(ConstraintLayout)findViewById(R.id.menu_exit);
         drawerFavorite=(DrawerLayout)findViewById(R.id.drawer_favorite);
         toolbarFavorite=(Toolbar)findViewById(R.id.toobar_favorite_page);
@@ -68,6 +69,14 @@ public class Favorite extends AppCompatActivity {
                 /*if(drawerFavorite.isDrawerOpen(Gravity.RIGHT)){
                     drawerFavorite.closeDrawer(Gravity.RIGHT);
                 }*/
+            }
+        });
+        clFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(drawerFavorite.isDrawerOpen(Gravity.RIGHT)){
+                    drawerFavorite.closeDrawer(Gravity.RIGHT);
+                }
             }
         });
         clHistory.setOnClickListener(new View.OnClickListener() {

@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgPronounce,imgMenu,imgFavorite;
     DrawerLayout drawerLayout;
     AutoCompleteTextView actvMainPage;
-    ConstraintLayout clExitMenu,clHistoryMenu,clFavorite;
+    ConstraintLayout clExitMenu,clHistoryMenu,clFavorite,clMainMenu;
     TextView tvPersianMainPage;
     TextToSpeech t1;
 
@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         imgFavorite=(ImageView)findViewById(R.id.img_favorite);
         clExitMenu=(ConstraintLayout)findViewById(R.id.menu_exit);
         clFavorite=(ConstraintLayout)findViewById(R.id.menu_favorite);
+        clMainMenu=(ConstraintLayout)findViewById(R.id.menu_main_page);
         tvPersianMainPage =(TextView)findViewById(R.id.tv_persian_main_page);
         clHistoryMenu=(ConstraintLayout)findViewById(R.id.menu_history);
         t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
@@ -161,6 +162,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        clMainMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(drawerLayout.isDrawerOpen(Gravity.RIGHT)){
+                    drawerLayout.closeDrawer(Gravity.RIGHT);
+                }
             }
         });
 

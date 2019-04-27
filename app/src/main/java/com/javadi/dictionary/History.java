@@ -23,7 +23,7 @@ public class History extends AppCompatActivity {
     List<String> words=new ArrayList<>();
     ImageView imgMenuHistoryPage;
     DrawerLayout drawerLayoutHistory;
-    ConstraintLayout clMainPage,clExit,clFavorite;
+    ConstraintLayout clMainPage,clExit,clFavorite,clHistory;
     public static Toolbar toolbarHistory;
 
     @Override
@@ -35,6 +35,7 @@ public class History extends AppCompatActivity {
         toolbarHistory=(Toolbar)findViewById(R.id.toobar_history);
         clMainPage=(ConstraintLayout)findViewById(R.id.menu_main_page);
         clFavorite=(ConstraintLayout)findViewById(R.id.menu_favorite);
+        clHistory=(ConstraintLayout)findViewById(R.id.menu_history);
         clExit=(ConstraintLayout) findViewById(R.id.menu_exit);
         recyclerViewHistory=(RecyclerView)findViewById(R.id.recy_history);
         drawerLayoutHistory=(DrawerLayout)findViewById(R.id.drawer_history);
@@ -62,6 +63,14 @@ public class History extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        clHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(drawerLayoutHistory.isDrawerOpen(Gravity.RIGHT)){
+                    drawerLayoutHistory.closeDrawer(Gravity.RIGHT);
+                }
             }
         });
         clFavorite.setOnClickListener(new View.OnClickListener() {
