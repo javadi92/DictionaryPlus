@@ -102,16 +102,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    tvPersianMainPage.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
-                    hideKeyboard();
-                    checkHistoryContainer();
-                    if(checkfavoriteContainer()==true){
-                        imgFavorite.setImageResource(R.drawable.favorite_fill);
-                        imgFavorite.setTag("true");
+                    if(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase())!=null){
+                        tvPersianMainPage.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
+                        hideKeyboard();
+                        checkHistoryContainer();
+                        if(checkfavoriteContainer()==true){
+                            imgFavorite.setImageResource(R.drawable.favorite_fill);
+                            imgFavorite.setTag("true");
+                        }
+                        else {
+                            imgFavorite.setImageResource(R.drawable.favorite_border);
+                            imgFavorite.setTag("false");
+                        }
                     }
-                    else {
-                        imgFavorite.setImageResource(R.drawable.favorite_border);
-                        imgFavorite.setTag("false");
+                    else{
+                        hideKeyboard();
+                        Toast.makeText(MainActivity.this,"لغتی یافت نشد",Toast.LENGTH_SHORT).show();
                     }
                     actvMainPage.dismissDropDown();
                 }

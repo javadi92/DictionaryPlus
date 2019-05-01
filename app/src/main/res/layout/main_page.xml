@@ -82,7 +82,7 @@
         android:layout_marginBottom="8dp"
         android:hint="@string/AutocompleteHint"
         android:fontFamily="@font/bnazanin"
-        android:imeOptions="actionSearch"
+        android:imeOptions="flagNoExtractUi|actionSend"
         android:singleLine="true"
         android:textColor="@color/TextColor"
         android:textColorHint="@color/TextColor"
