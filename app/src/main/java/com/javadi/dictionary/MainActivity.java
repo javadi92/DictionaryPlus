@@ -26,9 +26,9 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<String> words=new ArrayList<>();
-    List<String> historyWords=new ArrayList<>();
-    List<String> favoriteWords=new ArrayList<>();
+    static List<String> words=new ArrayList<>();
+    static List<String> historyWords=new ArrayList<>();
+    static List<String> favoriteWords=new ArrayList<>();
     Toolbar toolbar;
     ImageView imgPronounce,imgMenu,imgFavorite;
     DrawerLayout drawerLayout;
@@ -63,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        words=App.dbHelper.wordList();
+        if(words.size()==0){
+            words=App.dbHelper.wordList();
+        }
 
         //set toolbar
         setSupportActionBar(toolbar);
@@ -136,6 +138,9 @@ public class MainActivity extends AppCompatActivity {
                 tvPersianMainPage.setText("");
                 imgFavorite.setImageResource(R.drawable.favorite_border);
                 imgFavorite.setTag("false");
+                if(actvMainPage.getText().toString().equals("")){
+                    tvPersianMainPage.setText("فارسی");
+                }
             }
 
             @Override

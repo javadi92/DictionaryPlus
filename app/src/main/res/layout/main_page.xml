@@ -81,7 +81,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:hint="@string/AutocompleteHint"
-        android:fontFamily="@font/bnazanin"
+        android:fontFamily="@font/vazir"
         android:imeOptions="flagNoExtractUi|actionSend"
         android:singleLine="true"
         android:textColor="@color/TextColor"
@@ -162,7 +162,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/PersianTextView"
-                android:fontFamily="@font/bnazanin"
+                android:fontFamily="@font/vazir"
                 android:textColor="@color/TextColor"
                 android:textSize="@dimen/PersianTextview_NormalSize" />
         </LinearLayout>

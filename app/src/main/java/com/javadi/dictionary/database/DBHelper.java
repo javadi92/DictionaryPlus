@@ -121,19 +121,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        /*try {
-            db.beginTransaction();
-            db.execSQL("CREATE TABLE IF NOT EXISTS "+ DBC.searchedWords.TABLE_NAME
-                    +" ("+ DBC.searchedWords.id+" INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + DBC.searchedWords.ENGLISH_WORD+" TEXT,"
-                    + DBC.searchedWords.PERSIAN_WORD+" TEXT,"
-                    +DBC.searchedWords.checkFavorite+" INTEGER)");
-            db.setTransactionSuccessful();
-        }catch (SQLException e){
-            e.printStackTrace();
-        }finally {
-            db.endTransaction();
-        }*/
+
     }
 
     @Override

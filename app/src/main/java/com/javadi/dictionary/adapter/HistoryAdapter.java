@@ -53,6 +53,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.myViewHo
     @Override
     public void onBindViewHolder(@NonNull final myViewHolder myViewHolder, int i) {
         myViewHolder.tvEnglishHistory.setText(words.get(i));
+        myViewHolder.tvRow.setText(i+1+"");
         myViewHolder.imgPronunceHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,12 +114,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.myViewHo
 
     class myViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tvEnglishHistory;
+        TextView tvEnglishHistory,tvRow;
         ImageView imgPronunceHistory;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             tvEnglishHistory=(TextView)itemView.findViewById(R.id.tv_english_history);
+            tvRow=(TextView)itemView.findViewById(R.id.tv_row_favorite);
             imgPronunceHistory=(ImageView)itemView.findViewById(R.id.img_pronunce_history);
         }
     }

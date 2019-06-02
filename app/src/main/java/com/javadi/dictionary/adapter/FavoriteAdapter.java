@@ -53,6 +53,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.myView
     @Override
     public void onBindViewHolder(@NonNull final myViewHolder myViewHolder, int i) {
         myViewHolder.tvEnglishFavorite.setText(words.get(i));
+        myViewHolder.tvRow.setText(i+1+"");
         myViewHolder.imgPronunceFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,12 +112,13 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.myView
 
     class myViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tvEnglishFavorite;
+        TextView tvEnglishFavorite,tvRow;
         ImageView imgPronunceFavorite;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             tvEnglishFavorite=(TextView)itemView.findViewById(R.id.tv_english_favorite);
+            tvRow=(TextView)itemView.findViewById(R.id.tv_row_favorite);
             imgPronunceFavorite=(ImageView)itemView.findViewById(R.id.img_pronunce_favorite);
         }
     }
@@ -138,7 +140,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.myView
         public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
             if(wordSelected.size()>0){
                 for(String w:wordSelected){
-                    App.dbHelper.insertFavoriteWord(w);
+                    App.dbHelper.deleteFavoriteWord(w);
                     words.remove(w);
                 }
             }
