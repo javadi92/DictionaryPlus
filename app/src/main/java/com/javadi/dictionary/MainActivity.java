@@ -20,11 +20,18 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.javadi.dictionary.Presenter.ITranslatePresenter;
+import com.javadi.dictionary.Presenter.TranslatePresenter;
+import com.javadi.dictionary.View.ITranslateResult;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ITranslateResult {
+
+    ITranslatePresenter iTranslatePresenter;
 
     static List<String> words=new ArrayList<>();
     static List<String> historyWords=new ArrayList<>();
@@ -41,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        iTranslatePresenter=new TranslatePresenter(this);
 
         //init views
         toolbar=(Toolbar)findViewById(R.id.toobar_history);
@@ -87,7 +96,8 @@ public class MainActivity extends AppCompatActivity {
         actvMainPage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                tvPersianMainPage.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
+                //tvPersianMainPage.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
+                iTranslatePresenter.onTranslate(actvMainPage.getText().toString().toLowerCase());
                 hideKeyboard();
                 checkHistoryContainer();
                 if(checkfavoriteContainer()==true){
@@ -277,5 +287,10 @@ public class MainActivity extends AppCompatActivity {
         tvPersianMainPage.setText("فارسی");
         imgFavorite.setImageResource(R.drawable.favorite_border);
         imgFavorite.setTag("false");
+    }
+
+    @Override
+    public void onTranslateResult(String word) {
+        tvPersianMainPage.setText(word);
     }
 }
