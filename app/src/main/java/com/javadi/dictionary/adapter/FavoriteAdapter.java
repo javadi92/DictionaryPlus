@@ -110,6 +110,16 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.myView
         return words.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     class myViewHolder extends RecyclerView.ViewHolder{
 
         TextView tvEnglishFavorite,tvRow;

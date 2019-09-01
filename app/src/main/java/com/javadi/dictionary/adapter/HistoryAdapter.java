@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -63,6 +64,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.myViewHo
         if(!multiSelect){
             myViewHolder.itemView.setBackgroundResource(R.drawable.effect);
         }
+
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +112,16 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.myViewHo
     @Override
     public int getItemCount() {
         return words.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     class myViewHolder extends RecyclerView.ViewHolder{

@@ -1,4 +1,4 @@
-package com.javadi.dictionary.database;
+package com.javadi.dictionary.Model;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -88,7 +89,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public String translate(String word){
         openDb();
-        Cursor cursor =db.rawQuery("SELECT * FROM "+DBC.mainDB.TABLE_NAME+" WHERE " +DBC.mainDB.ENGLISH_WORD
+        Cursor cursor =db.rawQuery("SELECT * FROM "+ DBC.mainDB.TABLE_NAME+" WHERE " +DBC.mainDB.ENGLISH_WORD
                 +"="+"'"+word+"'",null);
         String mean=null;
         if(cursor.moveToFirst()){
