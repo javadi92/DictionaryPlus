@@ -1,4 +1,4 @@
-package com.javadi.dictionary;
+package com.javadi.dictionary.activities;
 
 import android.content.Intent;
 import android.speech.tts.TextToSpeech;
@@ -21,17 +21,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.javadi.dictionary.Presenter.ITranslatePresenter;
-import com.javadi.dictionary.Presenter.TranslatePresenter;
-import com.javadi.dictionary.View.ITranslateResult;
+
+import com.javadi.dictionary.utils.App;
+import com.javadi.dictionary.R;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements ITranslateResult {
+public class MainActivity extends AppCompatActivity {
 
-    ITranslatePresenter iTranslatePresenter;
 
     static List<String> words=new ArrayList<>();
     static List<String> historyWords=new ArrayList<>();
@@ -48,8 +47,6 @@ public class MainActivity extends AppCompatActivity implements ITranslateResult 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        iTranslatePresenter=new TranslatePresenter(this);
 
         //init views
         toolbar=(Toolbar)findViewById(R.id.toobar_history);
@@ -73,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements ITranslateResult 
         });
 
         if(words.size()==0){
-            words=App.dbHelper.wordList();
+            words= App.dbHelper.wordList();
         }
 
         //set toolbar
@@ -96,8 +93,8 @@ public class MainActivity extends AppCompatActivity implements ITranslateResult 
         actvMainPage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //tvPersianMainPage.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
-                iTranslatePresenter.onTranslate(actvMainPage.getText().toString().toLowerCase());
+                tvPersianMainPage.setText(App.dbHelper.translate(actvMainPage.getText().toString().toLowerCase()));
+                //iTranslatePresenter.onTranslate(actvMainPage.getText().toString().toLowerCase());
                 hideKeyboard();
                 checkHistoryContainer();
                 if(checkfavoriteContainer()==true){
@@ -198,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements ITranslateResult 
         clHistoryMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent historyIntent=new Intent(MainActivity.this,History.class);
+                Intent historyIntent=new Intent(MainActivity.this, History.class);
                 startActivity(historyIntent);
                 if(drawerLayout.isDrawerOpen(Gravity.RIGHT)){
                     drawerLayout.closeDrawer(Gravity.RIGHT);
@@ -209,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements ITranslateResult 
         clFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent favoriteIntent=new Intent(MainActivity.this,Favorite.class);
+                Intent favoriteIntent=new Intent(MainActivity.this, Favorite.class);
                 startActivity(favoriteIntent);
                 if(drawerLayout.isDrawerOpen(Gravity.RIGHT)){
                     drawerLayout.closeDrawer(Gravity.RIGHT);
@@ -289,8 +286,5 @@ public class MainActivity extends AppCompatActivity implements ITranslateResult 
         imgFavorite.setTag("false");
     }
 
-    @Override
-    public void onTranslateResult(String word) {
-        tvPersianMainPage.setText(word);
-    }
+
 }

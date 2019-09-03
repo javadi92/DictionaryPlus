@@ -1,4 +1,4 @@
-package com.javadi.dictionary;
+package com.javadi.dictionary.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.javadi.dictionary.utils.App;
+import com.javadi.dictionary.R;
 import com.javadi.dictionary.adapter.HistoryAdapter;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +45,7 @@ public class History extends AppCompatActivity {
         LinearLayoutManager llm=new LinearLayoutManager(getBaseContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewHistory.setLayoutManager(llm);
-        words=App.dbHelper.getHistoryList();
+        words= App.dbHelper.getHistoryList();
         historyAdapter=new HistoryAdapter(History.this,words);
         recyclerViewHistory.setAdapter(historyAdapter);
 
@@ -76,7 +79,7 @@ public class History extends AppCompatActivity {
         clFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent favoriteIntent=new Intent(History.this,Favorite.class);
+                Intent favoriteIntent=new Intent(History.this, Favorite.class);
                 finish();
                 startActivity(favoriteIntent);
                 if(drawerLayoutHistory.isDrawerOpen(Gravity.RIGHT)){

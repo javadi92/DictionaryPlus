@@ -1,4 +1,4 @@
-package com.javadi.dictionary.Model;
+package com.javadi.dictionary.database;
 
 import android.content.ContentValues;
 import android.content.Context;

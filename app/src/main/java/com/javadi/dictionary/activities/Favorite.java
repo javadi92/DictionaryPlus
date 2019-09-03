@@ -1,4 +1,4 @@
-package com.javadi.dictionary;
+package com.javadi.dictionary.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.javadi.dictionary.utils.App;
+import com.javadi.dictionary.R;
 import com.javadi.dictionary.adapter.FavoriteAdapter;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +49,7 @@ public class Favorite extends AppCompatActivity {
 
         setSupportActionBar(toolbarFavorite);
 
-        words=App.dbHelper.getFavoriteList();
+        words= App.dbHelper.getFavoriteList();
         favoriteAdapter=new FavoriteAdapter(this,words);
         recyFavorite.setAdapter(favoriteAdapter);
 
@@ -64,7 +67,7 @@ public class Favorite extends AppCompatActivity {
         clMainPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentMain=new Intent(Favorite.this,MainActivity.class);
+                Intent intentMain=new Intent(Favorite.this, MainActivity.class);
                 startActivity(intentMain);
                 /*if(drawerFavorite.isDrawerOpen(Gravity.RIGHT)){
                     drawerFavorite.closeDrawer(Gravity.RIGHT);
@@ -82,7 +85,7 @@ public class Favorite extends AppCompatActivity {
         clHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentHistory=new Intent(Favorite.this,History.class);
+                Intent intentHistory=new Intent(Favorite.this, History.class);
                 finish();
                 startActivity(intentHistory);
                 if(drawerFavorite.isDrawerOpen(Gravity.RIGHT)){
