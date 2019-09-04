@@ -11,8 +11,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.javadi.dictionary.utils.App;
 import com.javadi.dictionary.activities.History;
 import com.javadi.dictionary.R;
@@ -87,7 +90,50 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.myViewHo
                 }
             }
         });
+
+        myViewHolder.tvEnglishHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String wordSelected=myViewHolder.tvEnglishHistory.getText().toString();
+                if(multiSelect){
+                    if(selectedItems.contains(wordSelected)){
+                        selectedItems.remove(wordSelected);
+                        myViewHolder.itemView.setBackgroundResource(R.drawable.effect);
+                    }
+                    else {
+                        selectedItems.add(wordSelected);
+                        myViewHolder.itemView.setBackgroundResource(R.drawable.effetq);
+                    }
+                }
+                else {
+                    AlertDialog dialog;
+                    AlertDialog.Builder builder=new AlertDialog.Builder(mContext);
+                    builder.setMessage(App.dbHelper.translate(myViewHolder.tvEnglishHistory.getText().toString() ));
+                    dialog=builder.create();
+                    dialog.show();
+                }
+            }
+        });
         myViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ((History)myViewHolder.itemView.getContext()).startSupportActionMode(callback);
+                String wordSelected=myViewHolder.tvEnglishHistory.getText().toString();
+                if(multiSelect){
+                    if(selectedItems.contains(wordSelected)){
+                        selectedItems.remove(wordSelected);
+                        myViewHolder.itemView.setBackgroundResource(R.drawable.effect);
+                    }
+                    else {
+                        selectedItems.add(wordSelected);
+                        myViewHolder.itemView.setBackgroundResource(R.drawable.effetq);
+                    }
+                }
+                History.toolbarHistory.setVisibility(View.GONE);
+                return true;
+            }
+        });
+        myViewHolder.tvEnglishHistory.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 ((History)myViewHolder.itemView.getContext()).startSupportActionMode(callback);

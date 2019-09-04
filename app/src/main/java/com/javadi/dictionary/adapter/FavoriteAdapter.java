@@ -86,7 +86,47 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.myView
                 }
             }
         });
+        myViewHolder.tvEnglishFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(multiSelected){
+                    String temp=myViewHolder.tvEnglishFavorite.getText().toString();
+                    if(wordSelected.contains(temp)){
+                        wordSelected.remove(temp);
+                        myViewHolder.itemView.setBackgroundResource(R.drawable.effect);
+                    }
+                    else {
+                        wordSelected.add(temp);
+                        myViewHolder.itemView.setBackgroundResource(R.drawable.effetq);
+                    }
+                }
+                else {
+                    AlertDialog dialog;
+                    AlertDialog.Builder builder=new AlertDialog.Builder(mContext);
+                    builder.setMessage(App.dbHelper.translate(myViewHolder.tvEnglishFavorite.getText().toString() ));
+                    dialog=builder.create();
+                    dialog.show();
+                }
+            }
+        });
         myViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ((Favorite)myViewHolder.itemView.getContext()).startSupportActionMode(callback);
+                Favorite.toolbarFavorite.setVisibility(View.GONE);
+                String temp=myViewHolder.tvEnglishFavorite.getText().toString();
+                if(wordSelected.contains(temp)){
+                    wordSelected.remove(temp);
+                    myViewHolder.itemView.setBackgroundResource(R.drawable.effect);
+                }
+                else {
+                    wordSelected.add(temp);
+                    myViewHolder.itemView.setBackgroundResource(R.drawable.effetq);
+                }
+                return true;
+            }
+        });
+        myViewHolder.tvEnglishFavorite.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 ((Favorite)myViewHolder.itemView.getContext()).startSupportActionMode(callback);
